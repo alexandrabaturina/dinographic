@@ -11,6 +11,20 @@ function Dino(species, weight, height, diet, habitat, period, fact, image) {
     this.image = image;
 }
 
+
+// Read JSON data
+
+async function getData() {
+
+    try {
+        let response = await fetch('dino.json');
+        return await response.json();
+    } catch (err) {
+        alert(err);
+    }
+}
+
+
 // Create Dino Objects
 
 
