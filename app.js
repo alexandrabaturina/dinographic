@@ -1,3 +1,6 @@
+const dinoCompare = document.getElementById('dino-compare');
+const infographicsGrid = document.getElementById('grid');
+
 // Create Dino Constructor
 function Dino(species, weight, height, diet, habitat, period, fact, image) {
     this.species = species;
@@ -11,12 +14,12 @@ function Dino(species, weight, height, diet, habitat, period, fact, image) {
 }
 
 // Create Human Constructor
-function Human(name, weight, height, diet, image) {
+function Human(name, weight, height, diet) {
     this.name = name;
     this.weight = weight;
     this.height = height;
     this.diet = diet;
-    this.image = image;
+    this.image = "human.png";
 }
 
 // Read JSON data
@@ -47,14 +50,30 @@ const elasmosaurus = new Dino("Elasmosaurus", 16000, 59, "carnivor", "North Amer
 const ptaranodon = new Dino("Pteranodon", 44, 20, "carnivor", "North America", "Late Cretaceous", "Actually a flying reptile, the Pteranodon is not a dinosaur.", "pteranodon.png");
 const pigeon = new Dino("Pigeon", 0.5, 9, "herbavor", "World Wide", "Holocene", "All birds are living dinosaurs", "pigeon.png");
 
+// Get human data from form
+function getHumanDataFromForm() {
+    const name = document.getElementById('name').value;
+    const weight = document.getElementById('weight').value;
+    const height = Number(document.getElementById('inches').value) +
+        Number(document.getElementById('feet').value) * 12;
+    const diet = document.getElementById('diet').value;
+    return name, weight, height, diet;
+};
 
-// Create Human Object
 
-// Use IIFE to get human data from form
+// function showInfographics() {
+//     human = new Human(getHumanDataFromForm());
+//     generateInfographics(human);
+//     dinoCompare.style.display = 'none';
+//     infographicsGrid.style.display = 'block';
+// }
 
-(function getHumanDataFromForm() {
-    var aName = "Barry";
-})();
+// function generateInfographics(human) {
+//     const tile = document.createElement('div');
+//     tile.innerHTML = `${human}`;
+//     infographicsGrid.appendChild(tile);
+// }
+
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches. 
@@ -70,9 +89,10 @@ const pigeon = new Dino("Pigeon", 0.5, 9, "herbavor", "World Wide", "Holocene", 
 
 // Generate Tiles for each Dino in Array
 
-    // Add tiles to DOM
+// Add tiles to DOM
 
 // Remove form from screen
 
 
-// On button click, prepare and display infographic
+// On button click, display infographic
+document.getElementById('btn').addEventListener("click", showInfographics);
