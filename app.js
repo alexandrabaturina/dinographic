@@ -83,7 +83,15 @@ function createTile(dinosaur) {
 
 // Create Dino Compare Method 1
 function compareWeight(dinosaur) {
-
+    const dinoWeight = Number(dinosaur.weight);
+    const humanWeight = Number(human.weight);
+    const ratio = Math.round(dinoWeight / humanWeight);
+    const reverseRatio = (humanWeight / dinoWeight).toFixed(1);
+    if (dinoWeight > humanWeight) {
+        return `${dinosaur.species} is ${ratio} times heavier than you.`;
+    } else {
+        return `You are ${reverseFatio} times heavier than ${dinosaur.species}`;
+    }
 };
 
 // Create Dino Compare Method 2
