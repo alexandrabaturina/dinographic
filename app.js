@@ -61,18 +61,36 @@ function getHumanDataFromForm() {
 };
 
 
-// function showInfographics() {
-//     human = new Human(getHumanDataFromForm());
-//     generateInfographics(human);
-//     dinoCompare.style.display = 'none';
-//     infographicsGrid.style.display = 'block';
-// }
+function showInfographics() {
+    human = new Human(getHumanDataFromForm());
+    generateInfographics(human);
+    dinoCompare.style.display = 'none';
+    infographicsGrid.style.visibility = 'visible';
+}
 
-// function generateInfographics(human) {
-//     const tile = document.createElement('div');
-//     tile.innerHTML = `${human}`;
-//     infographicsGrid.appendChild(tile);
-// }
+function generateInfographics() {
+    createTile(triceratops);
+    createTile(triceratops);
+    createTile(triceratops);
+    createTile(triceratops);
+    createTile(triceratops);
+    createTile(triceratops);
+    createTile(triceratops);
+    createTile(triceratops);
+    createTile(triceratops);
+}
+
+function createTile(dinosaur) {
+    const tile = document.createElement('div');
+    tile.classList.add('grid-item');
+    tile.innerHTML = `
+    <h3>${dinosaur.species}</h3>
+    <img src="images/${dinosaur.image}">
+    <p> Fact goes here! </p>
+
+    `;
+    infographicsGrid.appendChild(tile);
+}
 
 
 // Create Dino Compare Method 1
@@ -89,9 +107,6 @@ function getHumanDataFromForm() {
 
 // Generate Tiles for each Dino in Array
 
-// Add tiles to DOM
-
-// Remove form from screen
 
 
 // On button click, display infographic
