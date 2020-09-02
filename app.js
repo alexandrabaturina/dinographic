@@ -58,6 +58,7 @@ function generateInfographics() {
     createTile(dinosaurs[1]);
     createTile(dinosaurs[2]);
     createTile(dinosaurs[3]);
+    createTile(human);
     createTile(dinosaurs[4]);
     createTile(dinosaurs[5]);
     createTile(dinosaurs[6]);
@@ -65,7 +66,16 @@ function generateInfographics() {
 }
 
 function createTile(dinosaur) {
-    if (dinosaur.species !== 'Pigeon') {
+    if (dinosaur === human) {
+        const tile = document.createElement('div');
+        tile.classList.add('grid-item');
+        tile.innerHTML = `
+        <h3>${human.name}</h3>
+        <img src="images/${human.image}">
+        `;
+        infographicsGrid.appendChild(tile);
+        return;
+    } else if (dinosaur.species !== 'Pigeon') {
         const facts = [dinosaur.fact, compareWeight(dinosaur), compareHeight(dinosaur), compareDiet(dinosaur)];
         fact = getRandomFact(facts);
     } else {
@@ -85,19 +95,28 @@ function createTile(dinosaur) {
 function compareWeight(dinosaur) {
     const dinoWeight = Number(dinosaur.weight);
     const humanWeight = Number(human.weight);
-    const ratio = Math.round(dinoWeight / humanWeight);
-    const reverseRatio = (humanWeight / dinoWeight).toFixed(1);
+    const weigthRatio = Math.round(dinoWeight / humanWeight);
     if (dinoWeight > humanWeight) {
-        return `${dinosaur.species} is ${ratio} times heavier than you.`;
+        return `${dinosaur.species} is ${weigthRatio} times heavier than you.`;
     } else {
-        return `You are ${reverseFatio} times heavier than ${dinosaur.species}`;
+        return `You are ${humanWeight - dinoWeight} lbs heavier than ${dinosaur.species}`;
     }
 };
 
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
 function compareHeight(dinosaur) {
-    return 'Height fact';
+    const dinoHeight = Number(dinosaur.height);
+    const humanHeight = human.height;
+    const feetDiff = Math.floor((dinoHeight - humanHeight) / 12);
+    const inchesDiff = (dinoHeight - humanHeight) % 12;
+    if (dinoHeight > humanHeight) {
+        return `${dinosaur.species} is ${feetDiff} feet ${inchesDiff} inces taller than you.`;
+    } else if (dinoHeight < humanHeight) {
+        return `You are ${feetDiff} feet ${inchesDiff} inches taller than ${dinosaur.species}`;
+    } else {
+        return `You are as tall as ${dinosaur.species}.`
+    }
 };
 
 // Create Dino Compare Method 3
@@ -110,12 +129,10 @@ function compareDiet(dinosaur) {
     }
 };
 
-
 // Get random fact
 getRandomFact = function (list) {
     return list[Math.floor((Math.random() * list.length))];
 }
-
 
 // On button click, display infographic
 infographicsGrid.style.display = 'none';
