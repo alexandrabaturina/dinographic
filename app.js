@@ -45,42 +45,8 @@ function getHumanDataFromForm() {
     return human;
 };
 
-function createTile(animal) {
-    if (animal.species !== 'Pigeon') {
-        const facts = [animal.fact, compareWeight(animal), compareHeight(animal), compareDiet(animal)];
-        fact = getRandomFact(facts);
-    } else {
-        fact = animal.fact;
-    }
-    const tile = document.createElement('div');
-    tile.classList.add('grid-item');
-    tile.innerHTML = `
-    <h3>${animal.species}</h3>
-    <img src="images/${animal.image}">
-    `;
-    if (animal instanceof Dino) {
-        tile.innerHTML += `
-    <p>${fact}</p>
-    `;
-    }
-    infographicsGrid.appendChild(tile);
-}
-
-function generateInfographics(objects) {
-    objects.forEach(object => createTile(object));
-}
-
-function showInfographics() {
-    const objects = [triceratops, tyrannosaurusRex, anklyosaurus, brachiosaurus, getHumanDataFromForm(), stegosaurus, elasmosaurus, ptaranodon, pigeon];
-    generateInfographics(objects);
-    dinoCompare.style.display = 'none';
-    infographicsGrid.style.display = 'flex';
-    return objects
-}
-
-
-
-
+// Get random fact
+getRandomFact = (list) => list[Math.floor((Math.random() * list.length))];
 
 // Create Dino Compare Method 1
 function compareWeight(dinosaur) {
@@ -118,8 +84,38 @@ function compareDiet(dinosaur) {
     }
 };
 
-// Get random fact
-getRandomFact = (list) => list[Math.floor((Math.random() * list.length))];
+// Create tiles for human and dinosaurs
+function createTile(animal) {
+    if (animal.species !== 'Pigeon') {
+        const facts = [animal.fact, compareWeight(animal), compareHeight(animal), compareDiet(animal)];
+        fact = getRandomFact(facts);
+    } else {
+        fact = animal.fact;
+    }
+    const tile = document.createElement('div');
+    tile.classList.add('grid-item');
+    tile.innerHTML = `
+    <h3>${animal.species}</h3>
+    <img src="images/${animal.image}">
+    `;
+    if (animal instanceof Dino) {
+        tile.innerHTML += `
+    <p>${fact}</p>
+    `;
+    }
+    infographicsGrid.appendChild(tile);
+}
+
+function generateInfographics(objects) {
+    objects.forEach(object => createTile(object));
+}
+
+function showInfographics() {
+    const objects = [triceratops, tyrannosaurusRex, anklyosaurus, brachiosaurus, getHumanDataFromForm(), stegosaurus, elasmosaurus, ptaranodon, pigeon];
+    generateInfographics(objects);
+    dinoCompare.style.display = 'none';
+    infographicsGrid.style.display = 'flex';
+}
 
 // On button click, display infographic
 infographicsGrid.style.display = 'none';
