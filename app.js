@@ -15,10 +15,11 @@ function Dino(species, weight, height, diet, habitat, period, fact, image) {
 
 // Create Human Constructor
 function Human(name, weight, height, diet) {
-    this.name = name;
+    this.species = name;
     this.weight = weight;
     this.height = height;
     this.diet = diet;
+    this.fact = "";
     this.image = "human.png";
 }
 
@@ -32,7 +33,6 @@ const elasmosaurus = new Dino("Elasmosaurus", 16000, 59, "carnivor", "North Amer
 const ptaranodon = new Dino("Pteranodon", 44, 20, "carnivor", "North America", "Late Cretaceous", "Actually a flying reptile, the Pteranodon is not a dinosaur.", "pteranodon.png");
 const pigeon = new Dino("Pigeon", 0.5, 9, "herbavor", "World Wide", "Holocene", "All birds are living dinosaurs", "pigeon.png");
 
-const dinosaurs = [triceratops, tyrannosaurusRex, anklyosaurus, brachiosaurus, stegosaurus, elasmosaurus, ptaranodon, pigeon];
 
 // Get human data from form
 function getHumanDataFromForm() {
@@ -45,51 +45,42 @@ function getHumanDataFromForm() {
     return human;
 };
 
-
-function showInfographics() {
-    getHumanDataFromForm();
-    generateInfographics();
-    dinoCompare.style.display = 'none';
-    infographicsGrid.style.display = 'flex';
-}
-
-function generateInfographics() {
-    createTile(dinosaurs[0]);
-    createTile(dinosaurs[1]);
-    createTile(dinosaurs[2]);
-    createTile(dinosaurs[3]);
-    createTile(human);
-    createTile(dinosaurs[4]);
-    createTile(dinosaurs[5]);
-    createTile(dinosaurs[6]);
-    createTile(dinosaurs[7]);
-}
-
-function createTile(dinosaur) {
-    if (dinosaur === human) {
-        const tile = document.createElement('div');
-        tile.classList.add('grid-item');
-        tile.innerHTML = `
-        <h3>${human.name}</h3>
-        <img src="images/${human.image}">
-        `;
-        infographicsGrid.appendChild(tile);
-        return;
-    } else if (dinosaur.species !== 'Pigeon') {
-        const facts = [dinosaur.fact, compareWeight(dinosaur), compareHeight(dinosaur), compareDiet(dinosaur)];
+function createTile(animal) {
+    if (animal.species !== 'Pigeon') {
+        const facts = [animal.fact, compareWeight(animal), compareHeight(animal), compareDiet(animal)];
         fact = getRandomFact(facts);
     } else {
-        fact = dinosaur.fact;
+        fact = animal.fact;
     }
     const tile = document.createElement('div');
     tile.classList.add('grid-item');
     tile.innerHTML = `
-    <h3>${dinosaur.species}</h3>
-    <img src="images/${dinosaur.image}">
+    <h3>${animal.species}</h3>
+    <img src="images/${animal.image}">
+    `;
+    if (animal instanceof Dino) {
+        tile.innerHTML += `
     <p>${fact}</p>
     `;
+    }
     infographicsGrid.appendChild(tile);
 }
+
+function generateInfographics(objects) {
+    objects.forEach(object => createTile(object));
+}
+
+function showInfographics() {
+    const objects = [triceratops, tyrannosaurusRex, anklyosaurus, brachiosaurus, getHumanDataFromForm(), stegosaurus, elasmosaurus, ptaranodon, pigeon];
+    generateInfographics(objects);
+    dinoCompare.style.display = 'none';
+    infographicsGrid.style.display = 'flex';
+    return objects
+}
+
+
+
+
 
 // Create Dino Compare Method 1
 function compareWeight(dinosaur) {
