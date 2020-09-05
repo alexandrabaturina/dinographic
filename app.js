@@ -214,19 +214,32 @@ function generateInfographics(objects) {
     objects.forEach(object => createTile(object));
 }
 
+// Shuffle dino array
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * i)
+        const temp = array[i]
+        array[i] = array[j]
+        array[j] = temp
+    }
+    return array
+}
+
 // Create array of Dino and Human objects
 function getObjects() {
+    const shuffledDinos = shuffle(getDinoArray());
     const objects = Array();
     for (let i = 0; i < 4; i++) {
-        objects.push(getDinoArray()[i]);
+        objects.push(shuffledDinos[i]);
     }
     objects.push(getHumanDataFromForm());
     for (let i = 4; i < 8; i++) {
-        objects.push(getDinoArray()[i]);
+        objects.push(shuffledDinos[i]);
     }
     return objects
 }
 
+// Show infographic
 function showInfographics() {
     generateInfographics(getObjects());
     dinoCompare.style.display = 'none';
