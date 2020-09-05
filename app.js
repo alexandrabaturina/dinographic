@@ -1,3 +1,88 @@
+const dinoJSON = {
+    "Dinos": [
+        {
+            "species": "Triceratops",
+            "weight": 13000,
+            "height": 114,
+            "diet": "herbavor",
+            "where": "North America",
+            "when": "Late Cretaceous",
+            "fact": "First discovered in 1889 by Othniel Charles Marsh",
+            "image": "triceratops.png"
+        },
+        {
+            "species": "Tyrannosaurus Rex",
+            "weight": 11905,
+            "height": 144,
+            "diet": "carnivor",
+            "where": "North America",
+            "when": "Late Cretaceous",
+            "fact": "The largest known skull measures in at 5 feet long.",
+            "image": "tyrannosaurus rex.png"
+        },
+        {
+            "species": "Anklyosaurus",
+            "weight": 10500,
+            "height": 55,
+            "diet": "herbavor",
+            "where": "North America",
+            "when": "Late Cretaceous",
+            "fact": "Anklyosaurus survived for approximately 135 million years.",
+            "image": "anklyosaurus.png"
+        },
+        {
+            "species": "Brachiosaurus",
+            "weight": 70000,
+            "height": "372",
+            "diet": "herbavor",
+            "where": "North America",
+            "when": "Late Jurasic",
+            "fact": "An asteroid was named 9954 Brachiosaurus in 1991.",
+            "image": "brachiosaurus.png"
+        },
+        {
+            "species": "Stegosaurus",
+            "weight": 11600,
+            "height": 79,
+            "diet": "herbavor",
+            "where": "North America, Europe, Asia",
+            "when": "Late Jurasic to Early Cretaceous",
+            "fact": "The Stegosaurus had between 17 and 22 seperate places and flat spines.",
+            "image": "stegosaurus.png"
+        },
+        {
+            "species": "Elasmosaurus",
+            "weight": 16000,
+            "height": 59,
+            "diet": "carnivor",
+            "where": "North America",
+            "when": "Late Cretaceous",
+            "fact": "Elasmosaurus was a marine reptile first discovered in Kansas.",
+            "image": "elasmosaurus.png"
+        },
+        {
+            "species": "Pteranodon",
+            "weight": 44,
+            "height": 20,
+            "diet": "carnivor",
+            "where": "North America",
+            "when": "Late Cretaceous",
+            "fact": "Actually a flying reptile, the Pteranodon is not a dinosaur.",
+            "image": "pteranodon.png"
+        },
+        {
+            "species": "Pigeon",
+            "weight": 0.5,
+            "height": 9,
+            "diet": "herbavor",
+            "where": "World Wide",
+            "when": "Holocene",
+            "fact": "All birds are living dinosaurs.",
+            "image": "pigeon.png"
+        }
+    ]
+};
+
 const dinoCompare = document.getElementById('dino-compare');
 const infographicsGrid = document.getElementById('grid');
 
@@ -13,6 +98,25 @@ function Dino(species, weight, height, diet, habitat, period, fact, image) {
     this.image = image;
 }
 
+// Create Dino Objects
+function getDinoArray() {
+    dinoArray = Array();
+    dinoJSON.Dinos.forEach((dino) => {
+        newObj = new Dino(
+            dino.species,
+            dino.weight,
+            dino.height,
+            dino.diet,
+            dino.where,
+            dino.when,
+            dino.fact,
+            dino.image
+        )
+        dinoArray.push(newObj);
+    });
+    return dinoArray
+}
+
 // Create Human Constructor
 function Human(name, weight, height, diet) {
     this.species = name;
@@ -22,17 +126,6 @@ function Human(name, weight, height, diet) {
     this.fact = "";
     this.image = "human.png";
 }
-
-// Create Dino Objects
-const triceratops = new Dino("Triceratops", 13000, 114, "herbavor", "North America", "Late Cretaceous", "First discovered in 1889 by Othniel Charles Marsh.", "triceratops.png");
-const tyrannosaurusRex = new Dino("Tyrannosaurus Rex", 11905, 144, "carnivor", "North America", "Late Cretaceous", "The largest known skull measures in at 5 feet long.", "tyrannosaurus rex.png");
-const anklyosaurus = new Dino("Anklyosaurus", 10500, 55, "herbavor", "North America", "Late Cretaceous", "Anklyosaurus survived for approximately 135 million years.", "anklyosaurus.png");
-const brachiosaurus = new Dino("Brachiosaurus", 70000, 372, "herbavor", "North America", "Late Jurasic", "An asteroid was named 9954 Brachiosaurus in 1991.", "brachiosaurus.png");
-const stegosaurus = new Dino("Stegosaurus", 11600, 79, "herbavor", "North America, Europe, Asia", "Late Jurasic to Early Cretaceous", "The Stegosaurus had between 17 and 22 seperate places and flat spines.", "stegosaurus.png");
-const elasmosaurus = new Dino("Elasmosaurus", 16000, 59, "carnivor", "North America", "Late Cretaceous", "Elasmosaurus was a marine reptile first discovered in Kansas.", "elasmosaurus.png");
-const ptaranodon = new Dino("Pteranodon", 44, 20, "carnivor", "North America", "Late Cretaceous", "Actually a flying reptile, the Pteranodon is not a dinosaur.", "pteranodon.png");
-const pigeon = new Dino("Pigeon", 0.5, 9, "herbavor", "World Wide", "Holocene", "All birds are living dinosaurs", "pigeon.png");
-
 
 // Get human data from form
 function getHumanDataFromForm() {
@@ -121,9 +214,21 @@ function generateInfographics(objects) {
     objects.forEach(object => createTile(object));
 }
 
+// Create array of Dino and Human objects
+function getObjects() {
+    const objects = Array();
+    for (let i = 0; i < 4; i++) {
+        objects.push(getDinoArray()[i]);
+    }
+    objects.push(getHumanDataFromForm());
+    for (let i = 4; i < 8; i++) {
+        objects.push(getDinoArray()[i]);
+    }
+    return objects
+}
+
 function showInfographics() {
-    const objects = [triceratops, tyrannosaurusRex, anklyosaurus, brachiosaurus, getHumanDataFromForm(), stegosaurus, elasmosaurus, ptaranodon, pigeon];
-    generateInfographics(objects);
+    generateInfographics(getObjects());
     dinoCompare.style.display = 'none';
     infographicsGrid.style.display = 'flex';
 }
