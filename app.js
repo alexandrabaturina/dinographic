@@ -41,8 +41,7 @@ function getHumanDataFromForm() {
     const height = Number(document.getElementById("inches").value) +
         Number(document.getElementById("feet").value) * 12;
     const diet = document.getElementById("diet").value;
-    human = new Human(name, weight, height, diet);
-    return human;
+    return new Human(name, weight, height, diet);
 }
 
 // Get random fact
@@ -51,7 +50,7 @@ getRandomFact = (list) => list[Math.floor((Math.random() * list.length))];
 // Create Dino Compare Method 1
 function compareWeight(dinosaur) {
     const dinoWeight = Number(dinosaur.weight);
-    const humanWeight = Number(human.weight);
+    const humanWeight = Number(getHumanDataFromForm().weight);
     const weigthRatio = Math.round(dinoWeight / humanWeight);
     if (dinoWeight > humanWeight) {
         return `${dinosaur.species} is ${weigthRatio} times heavier than you.`;
@@ -63,7 +62,7 @@ function compareWeight(dinosaur) {
 // Create Dino Compare Method 2
 function compareHeight(dinosaur) {
     const dinoHeight = Number(dinosaur.height);
-    const humanHeight = human.height;
+    const humanHeight = getHumanDataFromForm().height;
     const feetDiff = Math.floor((dinoHeight - humanHeight) / 12);
     const inchesDiff = (dinoHeight - humanHeight) % 12;
     if (dinoHeight > humanHeight) {
@@ -77,7 +76,7 @@ function compareHeight(dinosaur) {
 
 // Create Dino Compare Method 3
 function compareDiet(dinosaur) {
-    if (dinosaur.diet === human.diet.toLowerCase()) {
+    if (dinosaur.diet === getHumanDataFromForm().diet.toLowerCase()) {
         return `Both you and ${dinosaur.species} have ${dinosaur.diet} diet.`
     } else {
         return `Unlike you, ${dinosaur.species} has ${dinosaur.diet} diet.`
@@ -86,32 +85,34 @@ function compareDiet(dinosaur) {
 
 // Create fact about habitat
 function habitatFact(dinosaur) {
-    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived in ${dinosaur.habitat}`
+    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived in ${dinosaur.habitat}.`
 }
 
 // Create fact about period
 function periodFact(dinosaur) {
-    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived during ${dinosaur.period}`
+    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived during ${dinosaur.period} period.`
 }
 
 // Create tiles for human and dinosaurs
 function createTile(animal) {
-    if (animal.species !== 'Pigeon') {
-        const facts = [animal.fact, compareWeight(animal), compareHeight(animal), compareDiet(animal), habitatFact(animal), periodFact(animal)];
-        fact = getRandomFact(facts);
-    } else {
-        fact = animal.fact;
-    }
     const tile = document.createElement('div');
     tile.classList.add('grid-item');
     tile.innerHTML = `
     <h3>${animal.species}</h3>
     <img src="images/${animal.image}">
     `;
-    if (animal instanceof Dino) {
-        tile.innerHTML += `
-    <p>${fact}</p>
-    `;
+    if (animal.species !== "Pigeon" && animal instanceof Dino) {
+        const facts = [
+            animal.fact,
+            compareWeight(animal),
+            compareHeight(animal),
+            compareDiet(animal),
+            habitatFact(animal),
+            periodFact(animal)
+        ];
+        tile.innerHTML += `<p>${getRandomFact(facts)}</p>`;
+    } else if (animal.species === "Pigeon") {
+        tile.innerHTML += `<p>${animal.fact}</p>`;
     }
     infographicsGrid.appendChild(tile);
 }
