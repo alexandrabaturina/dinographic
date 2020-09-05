@@ -43,7 +43,7 @@ function getHumanDataFromForm() {
     const diet = document.getElementById("diet").value;
     human = new Human(name, weight, height, diet);
     return human;
-};
+}
 
 // Get random fact
 getRandomFact = (list) => list[Math.floor((Math.random() * list.length))];
@@ -73,7 +73,7 @@ function compareHeight(dinosaur) {
     } else {
         return `You are as tall as ${dinosaur.species}.`
     }
-};
+}
 
 // Create Dino Compare Method 3
 function compareDiet(dinosaur) {
@@ -82,12 +82,22 @@ function compareDiet(dinosaur) {
     } else {
         return `Unlike you, ${dinosaur.species} has ${dinosaur.diet} diet.`
     }
-};
+}
+
+// Create fact about habitat
+function habitatFact(dinosaur) {
+    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived in ${dinosaur.habitat}`
+}
+
+// Create fact about period
+function periodFact(dinosaur) {
+    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived during ${dinosaur.period}`
+}
 
 // Create tiles for human and dinosaurs
 function createTile(animal) {
     if (animal.species !== 'Pigeon') {
-        const facts = [animal.fact, compareWeight(animal), compareHeight(animal), compareDiet(animal)];
+        const facts = [animal.fact, compareWeight(animal), compareHeight(animal), compareDiet(animal), habitatFact(animal), periodFact(animal)];
         fact = getRandomFact(facts);
     } else {
         fact = animal.fact;
