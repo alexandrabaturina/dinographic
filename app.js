@@ -25,7 +25,6 @@ function Human(name, weight, height, diet) {
     this.image = "human.png";
 }
 
-
 // Create Dino Object
 function getDinoArray(dinos) {
 
@@ -72,7 +71,7 @@ function compareWeight(dinosaur) {
     } else {
         return `You are ${humanWeight - dinoWeight} lbs heavier than ${dinosaur.species}`;
     }
-};
+}
 
 // Create Dino Compare Method 2
 function compareHeight(dinosaur) {
@@ -100,15 +99,17 @@ function compareDiet(dinosaur) {
     }
 }
 
+// Capitalize dino name
+capitalize = dinosaur => dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1);
+
+
 // Create fact about habitat
-function habitatFact(dinosaur) {
-    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived in ${dinosaur.habitat}`
-}
+habitatFact = dinosaur => `${capitalize(dinosaur)} lived in ${dinosaur.habitat}`;
+
 
 // Create fact about period
-function periodFact(dinosaur) {
-    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived during ${dinosaur.period} period`
-}
+periodFact = dinosaur => `${capitalize(dinosaur)} lived during ${dinosaur.period} period`;
+
 
 // Create tiles for human and dinosaurs
 function createTile(animal) {
@@ -154,7 +155,7 @@ function getHumanDinoArray(dinos) {
 
     const shuffledDinos = shuffle(dinos);
 
-    return shuffledDinos.slice(4)
+    return shuffledDinos.slice(0, 4)
         .concat(getHumanDataFromForm())
         .concat(shuffledDinos.slice(4, 8))
 }
