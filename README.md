@@ -20,5 +20,10 @@ The **Dinographic** project has the following features:
 ![image](https://user-images.githubusercontent.com/53233637/96635449-b4c15a00-12d0-11eb-96ee-1db21c1dee2c.png)
 
 * There are 3 methods which compare dino data to the user data from the DOM.
+## Getting Started
+To run **Dinographic** locally,
+1. Clone this repo.
+2. ```cd``` into project directory.
+3. Open *index.html* with *Live Server*.
 ## Authors
 Alexandra Baturina
