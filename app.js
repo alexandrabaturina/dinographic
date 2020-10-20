@@ -23,6 +23,25 @@ function Human(name, weight, height, diet) {
     this.image = "human.png";
 }
 
+// Create Dino Object
+function getDinoArray(dinos) {
+    dinoArray = Array();
+    dinos.forEach((dino) => {
+        newObj = new Dino(
+            dino.species,
+            dino.weight,
+            dino.height,
+            dino.diet,
+            dino.where,
+            dino.when,
+            dino.fact,
+            dino.image
+        )
+        dinoArray.push(newObj);
+    });
+    return dinoArray
+}
+
 // Get human data from form
 function getHumanDataFromForm() {
     const name = document.getElementById("name").value;
@@ -42,7 +61,7 @@ function compareWeight(dinosaur) {
     const humanWeight = Number(getHumanDataFromForm().weight);
     const weigthRatio = Math.round(dinoWeight / humanWeight);
     if (dinoWeight > humanWeight) {
-        return `${dinosaur.species} is ${weigthRatio} times heavier than you.`;
+        return `${dinosaur.species} is ${weigthRatio} times heavier than you`;
     } else {
         return `You are ${humanWeight - dinoWeight} lbs heavier than ${dinosaur.species}`;
     }
@@ -55,31 +74,31 @@ function compareHeight(dinosaur) {
     const feetDiff = Math.floor((dinoHeight - humanHeight) / 12);
     const inchesDiff = (dinoHeight - humanHeight) % 12;
     if (dinoHeight > humanHeight) {
-        return `${dinosaur.species} is ${feetDiff} feet ${inchesDiff} inches taller than you.`;
+        return `${dinosaur.species} is ${feetDiff} feet ${inchesDiff} inches taller than you`;
     } else if (dinoHeight < humanHeight) {
-        return `You are ${Math.abs(feetDiff)} feet ${Math.abs(inchesDiff)} inches taller than ${dinosaur.species}.`;
+        return `You are ${Math.abs(feetDiff)} feet ${Math.abs(inchesDiff)} inches taller than ${dinosaur.species}`;
     } else {
-        return `You are as tall as ${dinosaur.species}.`
+        return `You are as tall as ${dinosaur.species}`
     }
 }
 
 // Create Dino Compare Method 3
 function compareDiet(dinosaur) {
     if (dinosaur.diet === getHumanDataFromForm().diet.toLowerCase()) {
-        return `Both you and ${dinosaur.species} have ${dinosaur.diet} diet.`
+        return `Both you and ${dinosaur.species} have ${dinosaur.diet} diet`
     } else {
-        return `Unlike you, ${dinosaur.species} has ${dinosaur.diet} diet.`
+        return `Unlike you, ${dinosaur.species} has ${dinosaur.diet} diet`
     }
 }
 
 // Create fact about habitat
 function habitatFact(dinosaur) {
-    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived in ${dinosaur.habitat}.`
+    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived in ${dinosaur.habitat}`
 }
 
 // Create fact about period
 function periodFact(dinosaur) {
-    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived during ${dinosaur.period} period.`
+    return `${dinosaur.species[0].toUpperCase() + dinosaur.species.slice(1)} lived during ${dinosaur.period} period`
 }
 
 // Create tiles for human and dinosaurs
@@ -145,24 +164,7 @@ function showInfographics(array) {
     infographicsGrid.style.display = 'flex';
 }
 
-// Create Dino Object
-function getDinoArray(dinos) {
-    dinoArray = Array();
-    dinos.forEach((dino) => {
-        newObj = new Dino(
-            dino.species,
-            dino.weight,
-            dino.height,
-            dino.diet,
-            dino.where,
-            dino.when,
-            dino.fact,
-            dino.image
-        )
-        dinoArray.push(newObj);
-    });
-    return dinoArray
-}
+
 
 // Read data from JSON
 fetch('dino.json')
