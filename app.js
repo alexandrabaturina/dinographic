@@ -3,6 +3,7 @@ const infographicsGrid = document.getElementById('grid');
 
 // Create Dino Constructor
 function Dino(species, weight, height, diet, habitat, period, fact, image) {
+
     this.species = species;
     this.weight = weight;
     this.height = height;
@@ -15,6 +16,7 @@ function Dino(species, weight, height, diet, habitat, period, fact, image) {
 
 // Create Human Constructor
 function Human(name, weight, height, diet) {
+
     this.species = name;
     this.weight = weight;
     this.height = height;
@@ -23,8 +25,10 @@ function Human(name, weight, height, diet) {
     this.image = "human.png";
 }
 
+
 // Create Dino Object
 function getDinoArray(dinos) {
+
     dinoArray = Array();
     dinos.forEach((dino) => {
         newObj = new Dino(
@@ -39,24 +43,27 @@ function getDinoArray(dinos) {
         )
         dinoArray.push(newObj);
     });
-    return dinoArray
+    return dinoArray;
 }
 
 // Get human data from form
 function getHumanDataFromForm() {
+
     const name = document.getElementById("name").value;
     const weight = document.getElementById("weight").value;
     const height = Number(document.getElementById("inches").value) +
         Number(document.getElementById("feet").value) * 12;
     const diet = document.getElementById("diet").value;
+
     return new Human(name, weight, height, diet);
 }
 
 // Get random fact
-getRandomFact = (list) => list[Math.floor((Math.random() * list.length))];
+getRandomFact = list => list[Math.floor((Math.random() * list.length))];
 
 // Create Dino Compare Method 1
 function compareWeight(dinosaur) {
+
     const dinoWeight = Number(dinosaur.weight);
     const humanWeight = Number(getHumanDataFromForm().weight);
     const weigthRatio = Math.round(dinoWeight / humanWeight);
@@ -69,6 +76,7 @@ function compareWeight(dinosaur) {
 
 // Create Dino Compare Method 2
 function compareHeight(dinosaur) {
+
     const dinoHeight = Number(dinosaur.height);
     const humanHeight = getHumanDataFromForm().height;
     const feetDiff = Math.floor((dinoHeight - humanHeight) / 12);
@@ -84,6 +92,7 @@ function compareHeight(dinosaur) {
 
 // Create Dino Compare Method 3
 function compareDiet(dinosaur) {
+
     if (dinosaur.diet === getHumanDataFromForm().diet.toLowerCase()) {
         return `Both you and ${dinosaur.species} have ${dinosaur.diet} diet`
     } else {
@@ -141,20 +150,13 @@ function shuffle(array) {
 }
 
 // Create array of Dino and Human objects
-function getObjects(dinos) {
+function getHumanDinoArray(dinos) {
 
     const shuffledDinos = shuffle(dinos);
-    const objects = Array();
 
-    for (let i = 0; i < 4; i++) {
-        objects.push(shuffledDinos[i]);
-    }
-    objects.push(getHumanDataFromForm());
-    for (let i = 4; i < 8; i++) {
-        objects.push(shuffledDinos[i]);
-    }
-
-    return objects
+    return shuffledDinos.slice(4)
+        .concat(getHumanDataFromForm())
+        .concat(shuffledDinos.slice(4, 8))
 }
 
 // Show infographic
@@ -165,14 +167,13 @@ function showInfographics(array) {
 }
 
 
-
 // Read data from JSON
 fetch('dino.json')
     .then(response => response.json())
     .then(data => {
         const dinoArray = getDinoArray(data.Dinos);
         document.getElementById('btn').addEventListener("click", () => {
-            const humanDinoArray = getObjects(dinoArray);
+            const humanDinoArray = getHumanDinoArray(dinoArray);
             showInfographics(humanDinoArray);
         });
     })
