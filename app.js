@@ -1,88 +1,3 @@
-const dinoJSON = {
-    "Dinos": [
-        {
-            "species": "Triceratops",
-            "weight": 13000,
-            "height": 114,
-            "diet": "herbavor",
-            "where": "North America",
-            "when": "Late Cretaceous",
-            "fact": "First discovered in 1889 by Othniel Charles Marsh",
-            "image": "triceratops.png"
-        },
-        {
-            "species": "Tyrannosaurus Rex",
-            "weight": 11905,
-            "height": 144,
-            "diet": "carnivor",
-            "where": "North America",
-            "when": "Late Cretaceous",
-            "fact": "The largest known skull measures in at 5 feet long.",
-            "image": "tyrannosaurus rex.png"
-        },
-        {
-            "species": "Anklyosaurus",
-            "weight": 10500,
-            "height": 55,
-            "diet": "herbavor",
-            "where": "North America",
-            "when": "Late Cretaceous",
-            "fact": "Anklyosaurus survived for approximately 135 million years.",
-            "image": "anklyosaurus.png"
-        },
-        {
-            "species": "Brachiosaurus",
-            "weight": 70000,
-            "height": "372",
-            "diet": "herbavor",
-            "where": "North America",
-            "when": "Late Jurasic",
-            "fact": "An asteroid was named 9954 Brachiosaurus in 1991.",
-            "image": "brachiosaurus.png"
-        },
-        {
-            "species": "Stegosaurus",
-            "weight": 11600,
-            "height": 79,
-            "diet": "herbavor",
-            "where": "North America, Europe, Asia",
-            "when": "Late Jurasic to Early Cretaceous",
-            "fact": "The Stegosaurus had between 17 and 22 seperate places and flat spines.",
-            "image": "stegosaurus.png"
-        },
-        {
-            "species": "Elasmosaurus",
-            "weight": 16000,
-            "height": 59,
-            "diet": "carnivor",
-            "where": "North America",
-            "when": "Late Cretaceous",
-            "fact": "Elasmosaurus was a marine reptile first discovered in Kansas.",
-            "image": "elasmosaurus.png"
-        },
-        {
-            "species": "Pteranodon",
-            "weight": 44,
-            "height": 20,
-            "diet": "carnivor",
-            "where": "North America",
-            "when": "Late Cretaceous",
-            "fact": "Actually a flying reptile, the Pteranodon is not a dinosaur.",
-            "image": "pteranodon.png"
-        },
-        {
-            "species": "Pigeon",
-            "weight": 0.5,
-            "height": 9,
-            "diet": "herbavor",
-            "where": "World Wide",
-            "when": "Holocene",
-            "fact": "All birds are living dinosaurs.",
-            "image": "pigeon.png"
-        }
-    ]
-};
-
 const dinoCompare = document.getElementById('dino-compare');
 const infographicsGrid = document.getElementById('grid');
 
@@ -96,25 +11,6 @@ function Dino(species, weight, height, diet, habitat, period, fact, image) {
     this.period = period;
     this.fact = fact;
     this.image = image;
-}
-
-// Create Dino Objects
-function getDinoArray() {
-    dinoArray = Array();
-    dinoJSON.Dinos.forEach((dino) => {
-        newObj = new Dino(
-            dino.species,
-            dino.weight,
-            dino.height,
-            dino.diet,
-            dino.where,
-            dino.when,
-            dino.fact,
-            dino.image
-        )
-        dinoArray.push(newObj);
-    });
-    return dinoArray
 }
 
 // Create Human Constructor
@@ -161,7 +57,7 @@ function compareHeight(dinosaur) {
     if (dinoHeight > humanHeight) {
         return `${dinosaur.species} is ${feetDiff} feet ${inchesDiff} inches taller than you.`;
     } else if (dinoHeight < humanHeight) {
-        return `You are ${Math.abs(feetDiff)} feet ${Math.abs(inchesDiff)} inches taller than ${dinosaur.species}`;
+        return `You are ${Math.abs(feetDiff)} feet ${Math.abs(inchesDiff)} inches taller than ${dinosaur.species}.`;
     } else {
         return `You are as tall as ${dinosaur.species}.`
     }
@@ -226,9 +122,11 @@ function shuffle(array) {
 }
 
 // Create array of Dino and Human objects
-function getObjects() {
-    const shuffledDinos = shuffle(getDinoArray());
+function getObjects(dinos) {
+
+    const shuffledDinos = shuffle(dinos);
     const objects = Array();
+
     for (let i = 0; i < 4; i++) {
         objects.push(shuffledDinos[i]);
     }
@@ -236,16 +134,44 @@ function getObjects() {
     for (let i = 4; i < 8; i++) {
         objects.push(shuffledDinos[i]);
     }
+
     return objects
 }
 
 // Show infographic
-function showInfographics() {
-    generateInfographics(getObjects());
+function showInfographics(array) {
+    generateInfographics(array);
     dinoCompare.style.display = 'none';
     infographicsGrid.style.display = 'flex';
 }
 
-// On button click, display infographic
-infographicsGrid.style.display = 'none';
-document.getElementById('btn').addEventListener("click", showInfographics);
+// Create Dino Object
+function getDinoArray(dinos) {
+    dinoArray = Array();
+    dinos.forEach((dino) => {
+        newObj = new Dino(
+            dino.species,
+            dino.weight,
+            dino.height,
+            dino.diet,
+            dino.where,
+            dino.when,
+            dino.fact,
+            dino.image
+        )
+        dinoArray.push(newObj);
+    });
+    return dinoArray
+}
+
+// Read data from JSON
+fetch('dino.json')
+    .then(response => response.json())
+    .then(data => {
+        const dinoArray = getDinoArray(data.Dinos);
+        document.getElementById('btn').addEventListener("click", () => {
+            const humanDinoArray = getObjects(dinoArray);
+            showInfographics(humanDinoArray);
+        });
+    })
+    .catch(err => console.log(`Unable to read data from dino.json: ${err}`));
