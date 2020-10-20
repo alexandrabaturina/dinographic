@@ -67,7 +67,7 @@ function compareWeight(dinosaur) {
     const humanWeight = Number(getHumanDataFromForm().weight);
     const weigthRatio = Math.round(dinoWeight / humanWeight);
     if (dinoWeight > humanWeight) {
-        return `${dinosaur.species} is ${weigthRatio} times heavier than you`;
+        return `${dinosaur.species} was ${weigthRatio} times heavier than you`;
     } else {
         return `You are ${humanWeight - dinoWeight} lbs heavier than ${dinosaur.species}`;
     }
@@ -81,7 +81,7 @@ function compareHeight(dinosaur) {
     const feetDiff = Math.floor((dinoHeight - humanHeight) / 12);
     const inchesDiff = (dinoHeight - humanHeight) % 12;
     if (dinoHeight > humanHeight) {
-        return `${dinosaur.species} is ${feetDiff} feet ${inchesDiff} inches taller than you`;
+        return `${dinosaur.species} was ${feetDiff} feet ${inchesDiff} inches taller than you`;
     } else if (dinoHeight < humanHeight) {
         return `You are ${Math.abs(feetDiff)} feet ${Math.abs(inchesDiff)} inches taller than ${dinosaur.species}`;
     } else {
@@ -93,9 +93,9 @@ function compareHeight(dinosaur) {
 function compareDiet(dinosaur) {
 
     if (dinosaur.diet === getHumanDataFromForm().diet.toLowerCase()) {
-        return `Both you and ${dinosaur.species} have ${dinosaur.diet} diet`
+        return `Like you, ${dinosaur.species} had ${dinosaur.diet} diet`
     } else {
-        return `Unlike you, ${dinosaur.species} has ${dinosaur.diet} diet`
+        return `Unlike you, ${dinosaur.species} had ${dinosaur.diet} diet`
     }
 }
 
